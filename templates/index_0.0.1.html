@@ -1,0 +1,24 @@
+<!DOCTYPE>
+<html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>krASCIIcam Art</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        #frame {
+            font-size: 14px;
+            line-height: 1.2;
+        }
+    </style>
+   </head>
+   <body>
+       <div id="frame">
+           <!--<iframe src="/vidfeed" style="width: 100%; height: 100vh; border: none"></iframe>-->
+           <script src="{{ url_for('static', filename='js/frameGen.js') }}" > </script>
+       </div>
+   </body>
+</html>

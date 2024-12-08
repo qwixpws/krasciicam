@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>krASCII-cam</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>KRASCII-CAM</h1>
+    <pre id="videoFeed"></pre>
+
+    <script type="text/javascript">
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Отправка запроса на начало видео
+        socket.emit('videoflow', {data: 'start'});
+
+        // Прослушивание события "frame", которое отправляет сервер
+        socket.on('frame', function(frame) {
+            const videoFeed = document.getElementById('videoFeed');
+            console.log(frame);
+            videoFeed.textContent = frame + '\n';  // Добавляем кадр на страницу
+        });
+    </script>
+</body>
+</html>
+
