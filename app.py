@@ -3,14 +3,14 @@ from flask import Flask, render_template, Response, jsonify
 from PIL import Image
 from flask_socketio import SocketIO, emit
 
-#ASCII_CHARS = "@%#+=-:. "
-ASCII_CHARS_00 = " .:-=+*%@#@#&$@B8"
-ASCII_CHARS = ASCII_CHARS_00[::-1]
+# ASCII_CHARS = "@%#+=-:. "
+ASCII_CHARS = " .:-=+*%@#@#&$@B8"
+# ASCII_CHARS = ASCII_CHARS[::-1]
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-def frameToAscii(frame, newWidth=500):
+def frameToAscii(frame, newWidth=400):
     # Start resizing frame
     height, width, _ = frame.shape
     aspectRatio = height / width * 0.55
@@ -27,9 +27,22 @@ def frameToAscii(frame, newWidth=500):
 
     return "\n".join(asciiLine)
 
+def checkAvailiableCams(n=10):
+    # print availiable capture devices
+    devices = []
+    for i in range(n):
+        # cv2.CAP_DSHOW is required for Windows or not?
+        cap = cv2.VideoCapture(i, cv2.CAP_DSHOW)
+        if cap.isOpened():
+            devices.append(i)
+            cap.release()
+    print(devices)
+    return devices
+
 def generateAsciiFrames():
-    capture = cv2.VideoCapture(0)
-    #print(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    capture = cv2.VideoCapture(1)
+
+    print(capture.get(cv2.CAP_PROP_FRAME_COUNT))
     while True:
         ret, frame = capture.read()
         if not ret:
@@ -49,4 +62,5 @@ def videoFeed(data):
         emit("frame", frame)
 
 if __name__ == "__main__":
+    # checkAvailiableCams()
     socketio.run(app, debug=True)

@@ -10,4 +10,4 @@ def checkAvailiableCams(n):
 
 
 if __name__ == "__main__":
-    checkAvailiableCams(1)
+    checkAvailiableCams(6)
